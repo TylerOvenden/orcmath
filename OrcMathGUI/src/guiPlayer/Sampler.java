@@ -14,7 +14,7 @@ import guiTeacher.components.*;
 import guiTeacher.interfaces.KeyedComponent;
 import guiTeacher.interfaces.Visible;
 import guiTeacher.userInterfaces.FullFunctionScreen;
-import tylerPlayground.SpaceGhost;
+import tylerPlayground.Music;
 
 public class Sampler extends GUIApplication {
 
@@ -120,8 +120,7 @@ public class Sampler extends GUIApplication {
 				}
 			}); 
 			viewObjects.add(cb);
-			viewObjects.add(new SpaceGhost(borderWidth, borderWidth, borderWidth, borderWidth));
-			
+		//	viewObjects.add(new Music());
 		}
 		
 		public void mouseDragged(MouseEvent m) {
@@ -129,7 +128,6 @@ public class Sampler extends GUIApplication {
 			mario.setX(m.getX());
 			mario.setY(m.getY());
 		}
-		
 		
 		private void setCustomFont(){
 			InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("AdventPro-Medium.ttf");
