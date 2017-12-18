@@ -22,7 +22,7 @@ public class CatalogMaker {
 		addMusic();
 		System.out.println(getCSVContent());
 	}
-	public static ArrayList<Music> addMusic() {
+	public static void addMusic() {
 		 Scanner s = new Scanner(System.in);
 		 System.out.println("Enter an artist");
 		 String artistName = s.nextLine();
@@ -40,10 +40,17 @@ public class CatalogMaker {
 				
 				
 					musicList.add(new Music(artistName,albumTitle,albumYear));
-					return musicList;
+					
 			
 	
 	
+	}
+	public static void save() {
+		
+	}
+	public static void run() 
+	{
+		
 	}
 	public static String getCSVContent() {
 		String data = " ";
