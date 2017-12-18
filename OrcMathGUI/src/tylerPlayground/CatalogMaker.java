@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class CatalogMaker {
 
 	private static ArrayList<Music> musicList;
-	static Scanner s = new Scanner(System.in);
-	static String musicInput = s.nextLine();
+	 Scanner s = new Scanner(System.in);
+	String musicInput = s.nextLine();
 	
 	public CatalogMaker() {
 		musicList=new ArrayList<Music>();
@@ -17,30 +17,32 @@ public class CatalogMaker {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Hello");
-	CatalogMaker c = new CatalogMaker();
-		System.out.println(getCSVContent());
+		
+		CatalogMaker c = new CatalogMaker();
 		addMusic();
+		System.out.println(getCSVContent());
 	}
 	public static ArrayList<Music> addMusic() {
-		System.out.println("Enter an artist");
-		if(musicInput.length() != 0)
-		{
-			String artistName = musicInput;
-			System.out.println("Enter an album");
-			musicInput = s.nextLine();
+		 Scanner s = new Scanner(System.in);
+		 System.out.println("Enter an artist");
+		 String artistName = s.nextLine();
+		
+
+		
 			
-			if(musicInput.length() != 0) {
-				String albumTitle = musicInput;
+			System.out.println("Enter an album");
+			String albumTitle = s.nextLine();
+			
+			
+				
 				System.out.println("Enter the year this album was released");
 				int albumYear = s.nextInt();
 				
-				if(albumYear != 0) {
+				
 					musicList.add(new Music(artistName,albumTitle,albumYear));
-				}
-			}
-		}
-		return musicList;
+					return musicList;
+			
+	
 	
 	}
 	public static String getCSVContent() {

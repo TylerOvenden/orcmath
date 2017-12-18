@@ -26,7 +26,7 @@ public class Music extends Component {
 		update();
 	}
 	public String toString() {
-		return album + " , " + album + " , " + releaseDate;
+		return artist + " , " + album + " , " + releaseDate;
 		
 		
 	}
