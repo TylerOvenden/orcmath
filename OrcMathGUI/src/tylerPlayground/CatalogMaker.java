@@ -1,10 +1,13 @@
 package tylerPlayground;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class CatalogMaker {
 
 	private static ArrayList<Music> musicList;
+	static Scanner s = new Scanner(System.in);
+	static String musicInput = s.nextLine();
 	
 	public CatalogMaker() {
 		musicList=new ArrayList<Music>();
@@ -14,8 +17,30 @@ public class CatalogMaker {
 	}
 
 	public static void main(String[] args) {
-		CatalogMaker c = new CatalogMaker();
+		System.out.println("Hello");
+	CatalogMaker c = new CatalogMaker();
 		System.out.println(getCSVContent());
+		addMusic();
+	}
+	public static ArrayList<Music> addMusic() {
+		System.out.println("Enter an artist");
+		if(musicInput.length() != 0)
+		{
+			String artistName = musicInput;
+			System.out.println("Enter an album");
+			musicInput = s.nextLine();
+			
+			if(musicInput.length() != 0) {
+				String albumTitle = musicInput;
+				System.out.println("Enter the year this album was released");
+				int albumYear = s.nextInt();
+				
+				if(albumYear != 0) {
+					musicList.add(new Music(artistName,albumTitle,albumYear));
+				}
+			}
+		}
+		return musicList;
 	
 	}
 	public static String getCSVContent() {
