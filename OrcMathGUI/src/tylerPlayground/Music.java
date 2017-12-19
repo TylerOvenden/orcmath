@@ -1,32 +1,38 @@
 package tylerPlayground;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Scanner;
 
+import guiTeacher.components.AnimatedComponent;
 import guiTeacher.components.Component;
 
 public class Music extends Component {
-
-	private String title;
-	private String author;
-	private int pages;
+	String album;
+	String artist;
+	int releaseDate;
 	
 
 
-	public Music(String title, String author, int pages) {
-		super(0, 0, 300, 1*pages);
-		this.title = title;
-		this.author = author;
-		this.pages = pages;
+	public Music(String artist,String album, int releaseDate) {
+		super(40, 40, 75, 86);
+		this.album = album;
+		this.artist = artist;
+		this.releaseDate = releaseDate;
+		//addSequence("resources/sprite.png",40, 0,0,60,86,7);
+		//Thread animation = new Thread(this);
+		//animation.start();
+		update();
 	}
-
-	
-	public String toString(){
-		return title+","+author+","+pages;
+	public String toString() {
+		return artist + " , " + album + " , " + releaseDate;
+		
+		
 	}
 	
-	@Override
 	public void update(Graphics2D g) {
-		// TODO Auto-generated method stub
+	//	super.update(g);
 
 	}
 
