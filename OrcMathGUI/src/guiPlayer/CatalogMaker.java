@@ -12,11 +12,11 @@ public class CatalogMaker {
 
 	public static Scanner in;
 
-	private ArrayList<Book> catalog;
+	private ArrayList<Book> musicList;
 
 	public CatalogMaker() {
 		//instantiate the catalog
-		catalog = new ArrayList<Book>();
+		musicList = new ArrayList<Book>();
 	}
 
 	public static void main(String[] args){
@@ -97,13 +97,13 @@ public class CatalogMaker {
 
 
 	private void addBook(Book b){
-		catalog.add(b);
+		musicList.add(b);
 	}
 
 	private void save() {
 		try{    
 			FileWriter fw=new FileWriter("BookCatalog.csv");
-			for(Book b: catalog){
+			for(Book b: musicList){
 				fw.write(b+"\n");    	
 			}
 
@@ -135,8 +135,8 @@ public class CatalogMaker {
 	}
 
 	private  void showCatalog() {
-		displayMessage("The catalog contains these Books:\n");
-		for(Book b: catalog){
+		displayMessage("The catalog contains these Music:\n");
+		for(Book b: musicList){
 			displayMessage("   "+b.toString()+"\n");
 		}
 	}
@@ -144,7 +144,7 @@ public class CatalogMaker {
 	private void load() {
 		String fileName = "";
 		//empty the catalog to prepare for a new load
-		catalog = new ArrayList<Book>();
+		musicList = new ArrayList<Book>();
 		//use this boolean to control the while loop. The user should have multiple chances to enter a correct filename
 		boolean opened = false;
 		while(!opened){
@@ -159,7 +159,7 @@ public class CatalogMaker {
 
 					String[] param = line.split(",");
 					//add a new Book for each line in the save file
-					catalog.add(new Book(param[0],param[1],Integer.parseInt(param[2])));
+					musicList.add(new Book(param[0],param[1],Integer.parseInt(param[2])));
 
 
 
