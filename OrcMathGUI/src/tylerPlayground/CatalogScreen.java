@@ -13,7 +13,9 @@ import guiTeacher.userInterfaces.FullFunctionScreen;
 
 public class CatalogScreen extends FullFunctionScreen implements FileRequester {
 	private TextArea test;
-	private TextField descriptionField;
+	private TextField artistField;
+	private TextField albumField;
+	private TextField dateField;
 	private Button addButton;
 	private Button saveButton;
 	private Button deleteButton;
@@ -30,15 +32,15 @@ public class CatalogScreen extends FullFunctionScreen implements FileRequester {
 		
 		test = new TextArea(40,350,200,75,"This is where text goes");
 		viewObjects.add(test);
-		descriptionField = new TextField(40, 40, 200, 30, "Jeff", "jeffery");
-		viewObjects.add(descriptionField);
-		descriptionField = new TextField(100, 100, 200, 50, "sonic youth", "daydream nation");
-		viewObjects.add(descriptionField);
-		descriptionField = new TextField(100, 170, 200, 50, "wavves", "wavvves");
-		viewObjects.add(descriptionField);
-		descriptionField = new TextField(100, 250, 200, 50, "fugazi", "repeater");
-		descriptionField.setInputType(TextField.INPUT_TYPE_NUMERIC);
-		viewObjects.add(descriptionField);
+		artistField = new TextField(40, 40, 200, 30, "artist", "");
+		viewObjects.add(artistField);
+		albumField = new TextField(100, 100, 200, 50, "album", "");
+		viewObjects.add(albumField);
+		dateField = new TextField(100, 170, 200, 50, "release date", "");
+		viewObjects.add(dateField);
+		
+		dateField.setInputType(TextField.INPUT_TYPE_NUMERIC);
+		
 		
 		addButton = new Button(40,450,150,90,"add",new Action() {
 			
@@ -77,10 +79,12 @@ public class CatalogScreen extends FullFunctionScreen implements FileRequester {
 	}
 
 	protected void addClicked() {
-		Music b = new Music(descriptionField.getText(),descriptionField.getText(),Integer.parseInt(descriptionField.getText()));
+		Music b = new Music(artistField.getText(),albumField.getText(),Integer.parseInt(dateField.getText()));
 		test.setText(test+"\n"+b );
 		musicCat.addAlbum();
-		//title.setText(" ");
+		artistField.setText("");
+		albumField.setText("");
+		dateField.setText("");
 	}
 
 

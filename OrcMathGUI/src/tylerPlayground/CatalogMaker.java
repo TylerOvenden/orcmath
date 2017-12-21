@@ -58,7 +58,7 @@ public class CatalogMaker {
 		}
 	}
 
-	private void add() {
+	public void add() {
 		String title = null;
 		String author = null;
 		int releaseDate = 0;
@@ -99,7 +99,7 @@ public class CatalogMaker {
 		musicList.add(music);
 	}
 
-	private void save() {
+	public void save() {
 		try{    
 			FileWriter fw=new FileWriter("MusicCatalog.csv");
 			for(Music b: musicList){
