@@ -29,9 +29,9 @@ public class CardMakerScreen2 extends FullFunctionScreen implements FileRequeste
 	@Override
 	public void initAllObjects(List<Visible> viewObjects) {
 	
-		Graphic level = new Graphic(20, 50, "resources/christmas.png");
+		Graphic level = new Graphic(20, 50, (int) (getWidth()*0.5),(int) (getHeight()*0.8), "resources/christmas.png");
 		viewObjects.add(level);
-		addButton = new Button(400,450,150,90,"go back",new Action() {
+		addButton = new Button(400,200,150,90,"go back",new Action() {
 			
 			@Override
 			public void act() {

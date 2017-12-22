@@ -27,7 +27,7 @@ public class CardMakerGUI extends GUIApplication {
 	//components take in x,y width and height
 	//add components through initAllObjects
 	public static void main(String[] args) {
-		 card = new CardMakerGUI(800, 600);
+		 card = new CardMakerGUI(600, 450);
 		Thread go = new Thread(card);
 		go.start();
 	}

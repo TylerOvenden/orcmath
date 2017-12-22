@@ -144,7 +144,7 @@ public class Sampler extends GUIApplication implements FileRequester{
 		private void setCustomFont(){
 			InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("AdventPro-Medium.ttf");
 			try {
-				Font font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(14f);
+				Font font = Font.createFont(Font.ROMAN_BASELINE, stream).deriveFont(14f);
 				StyledComponent.setBaseFont(font);
 			} catch (FontFormatException e) {
 				// TODO Auto-generated catch block
