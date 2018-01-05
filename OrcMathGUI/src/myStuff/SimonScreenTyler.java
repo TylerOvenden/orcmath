@@ -17,7 +17,7 @@ public class SimonScreenTyler extends ClickableScreen{
 	private int sequenceLength = 0;
 	private int lastSelectedButton;
 	private boolean userMove;
-	private ArrayList<Sequences> simonSequence;
+	private ArrayList<MoveInterfaceTyler> simonSequence;
 	
 	public SimonScreenTyler(int width, int height) {
 		super(width, height);
@@ -48,24 +48,38 @@ public class SimonScreenTyler extends ClickableScreen{
 		}
 		progress = getProgress();
 		label = new TextLabel(130,230,300,40,"Let's play Simon!");
-		sequence = new ArrayList<MoveInterfaceTyler>();
+		simonSequence = new ArrayList<MoveInterfaceTyler>();
 		//add 2 moves to start
 		lastSelectedButton = -1;
-		sequence.add(randomMove());
-		sequence.add(randomMove());
+		simonSequence.add(randomMove());
+		simonSequence.add(randomMove());
 		roundNumber = 0;
 		viewObjects.add(progress);
 		viewObjects.add(label);
 	}
 
-	private Object randomMove() {
-		// TODO Auto-generated method stub
+
+	private MoveInterfaceTyler randomMove() {
+		int bIndex = (int)(Math.random()*buttons.length);
+		while(bIndex == lastSelectedButton){
+        bIndex = (int)(Math.random()*buttons.length);
+		}
+		return getMove(bIndex);
+		}
+
+		/**
+		Placeholder until partner finishes implementation of MoveInterface
+		 */
+	private MoveInterfaceTyler getMove(int bIndex) {
 		return null;
-	}
+		}
+
+
 
 	private ProgressInterfaceTyler getProgress() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		    return null; 
 	}
 
 	private void addButtons() {
