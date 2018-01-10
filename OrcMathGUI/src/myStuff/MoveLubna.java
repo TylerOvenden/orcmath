@@ -1,16 +1,23 @@
 package myStuff;
 
 public class MoveLubna implements MoveInterfaceTyler {
+	private ButtonInterfaceTyler b;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	public MoveLubna(ButtonInterfaceTyler button) {
+		this.b = button;
 	}
 
 	@Override
 	public ButtonInterfaceTyler getButton() {
 		// TODO Auto-generated method stub
-		return null;
+		return b;
+	}
+
+	@Override
+	public void getMove(int bIndex) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

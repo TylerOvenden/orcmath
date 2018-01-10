@@ -1,175 +1,183 @@
-package myStuff;
 
+package myStuff;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
-import guiTeacher.components.Action;
-import guiTeacher.components.TextLabel;
+import guiTeacher.components.*;
 import guiTeacher.interfaces.Visible;
 import guiTeacher.userInterfaces.ClickableScreen;
-
-public class SimonScreenTyler extends ClickableScreen{
-	private TextLabel label;
-	private ButtonInterfaceTyler[] button;
-	private ProgressInterfaceTyler progress;
-	private ArrayList<MoveInterfaceTyler> arr;
-	private int round = 0;
-	private ProgressInterfaceTyler info;
-	private int sequenceIndex;
-	private int sequenceLength = 0;
-	private int lastSelectedButton;
-	private boolean userMove;
-	private boolean acceptingInput;
-	private ArrayList<MoveInterfaceTyler> simonSequence;
+public class SimonScreenTyler extends ClickableScreen implements Runnable{
+private ProgressInterfaceTyler progress;
 	
+	//SETTINGS FOR GAME
+	private int moveIndex;
+	
+	//Add Simon's moves to this list and compare it to the player's. 
+	private ArrayList<MoveInterfaceTyler> moves;
+	private int roundNumber;
+	private boolean acceptingUserInput;
+	
+	//Rather than having one variable per button, might aswell put them in an array
+	private ButtonInterfaceTyler[] buttons;
+	
+	//This is where we will be updating the user with their progress in the game
+	private TextLabel label;
+	
+	private int lastSelectedButton;
 	public SimonScreenTyler(int width, int height) {
 		super(width, height);
-		Thread app = new Thread();
-		app.start();
+		//Since this screen will be updating the player with information, we will need to make a thread
+		Thread screen = new Thread(this);
+		screen.start(); 
 	}
-	public void run(){
+	//Simon plays not the PLAYER
+	//Choose random buttons 
+	//Update round number
+	public void run() {
 	    label.setText("");
 	    nextRound();
 	}
-
+	
 	private void nextRound() {
-		acceptingInput = false;
-		round++;
-		MoveInterfaceTyler move = randomMove();
-		simonSequence.add(move);
-		info.setRound(round);
-		info.setSequenceSize(simonSequence.size());
+		acceptingUserInput = false;
+		roundNumber++;
+		moves.add(randomMove());
+		progress.updateRoundNumber(roundNumber);
+		progress.updateSequenceCount(moves.size());
 		changeText("Simon's turn");
 		label.setText("");
-		playSequence();
+		playSequence(); 
 		changeText("Your turn");
-		acceptingInput = true;
-		sequenceIndex = 0;
-		
-	}
-	private void changeText(String s) {
-		label.setText(s);
-		try {
-			Thread.sleep(900);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
+		acceptingUserInput = true;
+		moveIndex = 0;
 	}
 	private void playSequence() {
-		ButtonInterfaceTyler b = getAButton();
-		for(MoveInterfaceTyler c: simonSequence){ 
-		    if(b != null) {
-		    		b.dim();
-		    }
-		    b = c.getButton();
-		    b.highlight();
-		    int sleepTime = (1/round)/round;
-		    try {
+		ButtonInterfaceTyler b = null;
+		for(int i = 0; i < moves.size(); i++) {
+			if(b != null) {
+				b.normalizeButton();
+			}
+			b = moves.get(i).getButton();
+			b.highlightButton();
+			//Shorter the more rounds
+			int sleepTime = 1000 / roundNumber; //(Math.PI / (3 * Math.pow(Math.E, roundNumber))));
+			try {
 				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		    b.dim();
 		}
-		
+		b.normalizeButton();
 	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	
+	private void changeText(String s) {
+		label.setText(s);
+		update();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
-
+	
 	@Override
 	public void initAllObjects(List<Visible> viewObjects) {
-		TextLabel currentRound = new TextLabel(100, 120,200 ,40 , "The current round is ");
-		viewObjects.add(currentRound);
-		addButtons();
-		for(ButtonInterfaceTyler b: button){ 
+		roundNumber = 0;
+		//Code to add the buttons to the array we created above
+		addGameButtons();
+		//Add buttons to the list of visible objects
+		for(ButtonInterfaceTyler b: buttons){ 
 		    viewObjects.add(b); 
 		}
 		progress = getProgress();
-		label = new TextLabel(200,250,250,50,"Let's play Simon!");
-		simonSequence = new ArrayList<MoveInterfaceTyler>();
-		//add 2 moves to start
+		label = (new TextLabel(300,400,300,80,"It's time to play Simon's Game!"));
+		//This will track the moves that Simon makes
+		moves = new ArrayList<MoveInterfaceTyler>();
+		//Starting moves according to the preset number, sequenceCount
 		lastSelectedButton = -1;
-		simonSequence.add(randomMove());
-		simonSequence.add(randomMove());
-		round = 0;
+		moves.add(randomMove());
+		moves.add(randomMove());
+		roundNumber = 0;
 		viewObjects.add(progress);
 		viewObjects.add(label);
 	}
-
-
-	private MoveInterfaceTyler randomMove() {
-		int bIndex = (int)(Math.random()*button.length);
-		while(bIndex == lastSelectedButton){
-        bIndex = (int)(Math.random()*button.length);
-		}
-		return getMove(bIndex);
-		}
-
-		/**
-		Placeholder until partner finishes implementation of MoveInterface
-		 */
-	private MoveInterfaceTyler getMove(int bIndex) {
-		return null;
-		}
-
-
-
+	//WAIT FOR PARTNER
 	private ProgressInterfaceTyler getProgress() {
-		// TODO Auto-generated method stub
-		
-		    return null; 
+		return new ProgressLubna(400, 400, 300, 100);
 	}
-
-	private void addButtons() {
-		int numberOfButtons = 6;
-		button = new ButtonInterfaceTyler[numberOfButtons];
-		Color[] bColors = {Color.yellow,Color.orange,Color.magenta,Color.cyan,Color.blue,Color.gray};
-		for(int i = 0; i < numberOfButtons;i++) {
+	public void addGameButtons() {
+		Color[] colors = {Color.BLUE, Color.yellow, Color.green, Color.red};
+		buttons = new ButtonInterfaceTyler[4]; 
+		for(int i = 0; i < buttons.length; i++) {
 			final ButtonInterfaceTyler b = getAButton();
-			b.setColor(Color.red);
-			b.setX(40);
-			b.setY(60);
-			b.setAction(new Action() {
-				public void act() {
-					if(acceptingInput) {
-						Thread blink = new Thread (new Runnable() {
-							public void run() {
-								b.highlight();
-								try {
-									Thread.sleep(800);
-									} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-									}
-									b.dim();
-							}
-						});
-							blink.start();
-						}
-					}	
-				});
-			button[i] = b;
-	
-			if(b == simonSequence.get(sequenceIndex).getButton()) {
-				sequenceIndex++;
-			}else {
-				ProgressInterfaceTyler.gameOver();
-			}
-			if(sequenceIndex == simonSequence.size()){ 
-			    Thread nextRound = new Thread(); 
-			    nextRound.start(); 
-			}
-		
+			double cx = b.getWidth() / 2;
+			double cy = b.getHeight() / 2;
+			double angle = (i * (2 * Math.PI)) / buttons.length;
+		    double x = cx + 110.0 * Math.cos(angle);                
+		    double y = cy + 110.0 * Math.sin(angle);                
+			b.setColor(colors[i]); 
+		    b.setX(200+x);
+		    b.setY(200+y);
+		    b.setAction(new Action() {
+		    	public void act() {
+		    		
+		    		if(acceptingUserInput) {
+		    			
+		    			Thread blink = new Thread(new Runnable() {
+		    				public void run() {
+		    					
+		    					b.highlightButton();
+		    					try {
+			    					Thread.sleep(800);
+		    					} catch (InterruptedException e) {
+			    					e.printStackTrace();
+		    					}
+		    					b.normalizeButton();
+		    					
+		    				}
+		    			});
+		    			
+		    			blink.start();
+		    			
+		    			//Checks if the user clicked the same button as the one that Simon clicked
+		    			if(b == moves.get(moveIndex).getButton()) {
+		    				
+		    				moveIndex++;
+		    			
+		    			}
+		    			else {
+		    				
+		    				progress.gameOver();
+		    				
+		    			}
+		    			if(moveIndex == moves.size()) { 
+		    			    Thread nextRound = new Thread(SimonScreenTyler.this); 
+		    			    nextRound.start(); 
+		    			    
+		    			}
+		    			
+		    		}
+		    		
+		    	}
+		    });
+			buttons[i] = b;
 		}
-		
 	}
+	//WAIT FOR PARTNER
 	private ButtonInterfaceTyler getAButton() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ButtonLubna(0, 0, 40, 40, "", Color.blue, null);
 	}
-
+	private MoveInterfaceTyler randomMove() {
+	    int moveIndex = (int) (Math.random() * buttons.length);
+	    while(moveIndex == lastSelectedButton){
+	        moveIndex = (int)(Math.random() * buttons.length);
+	    }
+	    lastSelectedButton = moveIndex;
+	    return getMove(moveIndex);
+	}
+	
+	//WAIT FOR PARTNER
+	private MoveInterfaceTyler getMove(int bIndex) {
+	    return new MoveLubna(buttons[bIndex]);
+	}
 }

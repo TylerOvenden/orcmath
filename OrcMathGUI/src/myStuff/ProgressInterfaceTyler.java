@@ -4,12 +4,13 @@ import guiTeacher.interfaces.Visible;
 
 public interface ProgressInterfaceTyler extends Visible{
 
-	void setRound(int round);
-	void setSequenceSize(int size);
+	void gameOver();
+	void getProgress();
+	void setRound(int i);
+	void setSequenceSize(int i);
+	void updateSequenceCount(int size);
+	void updateRoundNumber(int roundNumber);
 	
-	static void gameOver() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

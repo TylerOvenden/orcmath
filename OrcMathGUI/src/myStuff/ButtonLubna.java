@@ -1,5 +1,12 @@
 package myStuff;
-
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import guiTeacher.components.Action;
+import guiTeacher.components.Button;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -10,48 +17,67 @@ import guiTeacher.components.Button;
 
 public class ButtonLubna extends Button implements ButtonInterfaceTyler {
 
-	private Color og;
-	private boolean hover;
-	public ButtonLubna(int x, int y, int w, int h, String text, Action action) {
-		super(x, y, w, h, "", null);
+	private Color baseColor;
+	private Color currentColor;
 	
-		//drawButton(g, hover);
+	public ButtonLubna(int x, int y, int w, int h, String text, Color color, Action action) {
+		super(x, y, w, h, text, color, action);
+		setColor(color);
+		setActiveBorderColor(Color.BLACK);
+		update();
 	}
-
+	@Override
+	public void highlightButton() {
+		currentColor = Color.gray;
+		update();
+	}
+	@Override
+	public void normalizeButton() {
+		currentColor = baseColor;
+		update();
+	}
 	@Override
 	public void setColor(Color color) {
-		this.setColor(color);
-		color = og;
-		this.hover = false;
+		baseColor = color;
+		currentColor = color;
+		update();
 	}
-
+	@Override
+	public void setX(double x) {
+		setX((int)x);
+	}
+	@Override
+	public void setY(double y) {
+		setY((int)y);
+	}
+	
+	public void drawButton(Graphics2D g, boolean hover){
+		Ellipse2D ellipse = new Ellipse2D.Double(0, 0, getWidth(), getHeight());
+		g.setColor(currentColor);
+		g.draw(ellipse);
+		g.fill(ellipse);
+	}
+	public void update() {
+		BufferedImage hoverImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D hoverG = hoverImage.createGraphics();
+		applyStyles(hoverG);
+		drawButton(hoverG, true);
+		super.update();
+	}
 	@Override
 	public void highlight() {
-		this.setColor(og);
-		if(hover==false) {
-			setColor(og.brighter());
-		}
+		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void dim() {
-		this.setColor(og);
-		if(hover==false) {
-			setColor(og.darker());
-		}
+		// TODO Auto-generated method stub
 		
 	}
-	public void drawButton(Graphics2D g, boolean hover){
-
-		if(hover) {
-			g.setColor(getForeground());
-		}
-		else {
-			g.setColor(Color.GRAY);
-		}
-
+	@Override
+	public void getAButton() {
+		// TODO Auto-generated method stub
+		
 	}
-
-
+	
 }
