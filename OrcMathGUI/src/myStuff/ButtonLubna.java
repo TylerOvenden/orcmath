@@ -17,7 +17,7 @@ import guiTeacher.components.Button;
 
 public class ButtonLubna extends Button implements ButtonInterfaceTyler {
 
-	private Color baseColor;
+	private Color newColor;
 	private Color currentColor;
 	
 	public ButtonLubna(int x, int y, int w, int h, String text, Color color, Action action) {
@@ -33,12 +33,12 @@ public class ButtonLubna extends Button implements ButtonInterfaceTyler {
 	}
 	@Override
 	public void normalizeButton() {
-		currentColor = baseColor;
+		currentColor = newColor;
 		update();
 	}
 	@Override
 	public void setColor(Color color) {
-		baseColor = color;
+		newColor = color;
 		currentColor = color;
 		update();
 	}

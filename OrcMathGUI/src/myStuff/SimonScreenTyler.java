@@ -23,7 +23,7 @@ private ProgressInterfaceTyler progress;
 	//This is where we will be updating the user with their progress in the game
 	private TextLabel label;
 	
-	private int lastSelectedButton;
+	private int bSelect;
 	public SimonScreenTyler(int width, int height) {
 		super(width, height);
 		//Since this screen will be updating the player with information, we will need to make a thread
@@ -85,16 +85,17 @@ private ProgressInterfaceTyler progress;
 		roundNumber = 0;
 		//Code to add the buttons to the array we created above
 		addGameButtons();
+		
 		//Add buttons to the list of visible objects
 		for(ButtonInterfaceTyler b: buttons){ 
 		    viewObjects.add(b); 
 		}
 		progress = getProgress();
 		label = (new TextLabel(300,400,300,80,"It's time to play Simon's Game!"));
-		//This will track the moves that Simon makes
+
 		moves = new ArrayList<MoveInterfaceTyler>();
-		//Starting moves according to the preset number, sequenceCount
-		lastSelectedButton = -1;
+
+		bSelect = -1;
 		moves.add(randomMove());
 		moves.add(randomMove());
 		roundNumber = 0;
@@ -106,8 +107,8 @@ private ProgressInterfaceTyler progress;
 		return new ProgressLubna(400, 400, 300, 100);
 	}
 	public void addGameButtons() {
-		Color[] colors = {Color.BLUE, Color.yellow, Color.green, Color.red};
-		buttons = new ButtonInterfaceTyler[4]; 
+		Color[] colors = {Color.BLUE, Color.yellow, Color.green, Color.red, Color.CYAN, Color.magenta};
+		buttons = new ButtonInterfaceTyler[6]; 
 		for(int i = 0; i < buttons.length; i++) {
 			final ButtonInterfaceTyler b = getAButton();
 			double cx = b.getWidth() / 2;
@@ -169,10 +170,10 @@ private ProgressInterfaceTyler progress;
 	}
 	private MoveInterfaceTyler randomMove() {
 	    int moveIndex = (int) (Math.random() * buttons.length);
-	    while(moveIndex == lastSelectedButton){
+	    while(moveIndex == bSelect){
 	        moveIndex = (int)(Math.random() * buttons.length);
 	    }
-	    lastSelectedButton = moveIndex;
+	    bSelect = moveIndex;
 	    return getMove(moveIndex);
 	}
 	
